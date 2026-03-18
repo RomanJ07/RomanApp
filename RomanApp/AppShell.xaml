@@ -4,11 +4,36 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:RomanApp"
-    Title="RomanApp">
+    Title="Pokemon App">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+    <TabBar>
+        <Tab Title="Accueil" Icon="tab_home.svg">
+            <ShellContent
+                Title="Accueil"
+                ContentTemplate="{DataTemplate local:HomePage}"
+                Route="home" />
+        </Tab>
+
+        <Tab Title="Pokedex" Icon="tab_pokedex.svg">
+            <ShellContent
+                Title="Pokedex"
+                ContentTemplate="{DataTemplate local:PokedexPage}"
+                Route="pokedex" />
+        </Tab>
+
+        <Tab Title="Equipe" Icon="tab_team.svg">
+            <ShellContent
+                Title="Equipe"
+                ContentTemplate="{DataTemplate local:TeamPage}"
+                Route="team" />
+        </Tab>
+
+        <Tab Title="Dresseur" Icon="tab_trainer.svg">
+            <ShellContent
+                Title="Dresseur"
+                ContentTemplate="{DataTemplate local:TrainerPage}"
+                Route="trainer" />
+        </Tab>
+    </TabBar>
 
 </Shell>
