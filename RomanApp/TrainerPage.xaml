@@ -4,14 +4,20 @@
              x:Class="RomanApp.TrainerPage"
              Title="Dresseur">
 
-    <VerticalStackLayout Padding="24" Spacing="12">
-        <Label Text="Profil Dresseur"
-               FontSize="28"
-               FontAttributes="Bold" />
+    <ScrollView>
+        <VerticalStackLayout Padding="24" Spacing="16">
+            <Image Source="pokemon_trainer.svg"
+                   HeightRequest="160"
+                   Aspect="AspectFit" />
 
-        <Label Text="Affiche le nom, badges et progression du dresseur."
-               FontSize="16" />
-    </VerticalStackLayout>
+            <Label Text="Profil Dresseur"
+                   FontSize="28"
+                   FontAttributes="Bold" />
+
+            <Label Text="Affiche le nom, badges et progression du dresseur."
+                   FontSize="16" />
+        </VerticalStackLayout>
+    </ScrollView>
 
 </ContentPage>
 

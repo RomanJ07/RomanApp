@@ -6,31 +6,38 @@
     xmlns:local="clr-namespace:RomanApp"
     Title="Pokemon App">
 
+    <Shell.Resources>
+        <ResourceDictionary>
+            <Color x:Key="Primary">#512BD4</Color>
+            <Color x:Key="Secondary">#A0A0A0</Color>
+        </ResourceDictionary>
+    </Shell.Resources>
+
     <TabBar>
-        <Tab Title="Accueil" Icon="tab_home.svg">
+        <Tab Title="Accueil" Icon="pokemon_home.svg">
             <ShellContent
-                Title="Accueil"
+                Title="Accueil Pokemon"
                 ContentTemplate="{DataTemplate local:HomePage}"
                 Route="home" />
         </Tab>
 
-        <Tab Title="Pokedex" Icon="tab_pokedex.svg">
+        <Tab Title="Pokedex" Icon="pokemon_pokedex.png">
             <ShellContent
                 Title="Pokedex"
                 ContentTemplate="{DataTemplate local:PokedexPage}"
                 Route="pokedex" />
         </Tab>
 
-        <Tab Title="Equipe" Icon="tab_team.svg">
+        <Tab Title="Equipe" Icon="pokemon_team.png">
             <ShellContent
-                Title="Equipe"
+                Title="Mon Equipe"
                 ContentTemplate="{DataTemplate local:TeamPage}"
                 Route="team" />
         </Tab>
 
-        <Tab Title="Dresseur" Icon="tab_trainer.svg">
+        <Tab Title="Dresseur" Icon="pokemon_trainer.svg">
             <ShellContent
-                Title="Dresseur"
+                Title="Profil Dresseur"
                 ContentTemplate="{DataTemplate local:TrainerPage}"
                 Route="trainer" />
         </Tab>

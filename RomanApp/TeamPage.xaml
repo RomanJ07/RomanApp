@@ -4,14 +4,20 @@
              x:Class="RomanApp.TeamPage"
              Title="Equipe">
 
-    <VerticalStackLayout Padding="24" Spacing="12">
-        <Label Text="Mon equipe"
-               FontSize="28"
-               FontAttributes="Bold" />
+    <ScrollView>
+        <VerticalStackLayout Padding="24" Spacing="16">
+            <Image Source="pokemon_team.png"
+                   HeightRequest="160"
+                   Aspect="AspectFit" />
 
-        <Label Text="Construis ton equipe de 6 Pokemon ici."
-               FontSize="16" />
-    </VerticalStackLayout>
+            <Label Text="Mon equipe"
+                   FontSize="28"
+                   FontAttributes="Bold" />
+
+            <Label Text="Construis ton equipe de 6 Pokemon ici."
+                   FontSize="16" />
+        </VerticalStackLayout>
+    </ScrollView>
 
 </ContentPage>
 
