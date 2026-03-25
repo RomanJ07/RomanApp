@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RomanApp.AnimationPage"
+             Title="Action en direct"
+             BackgroundColor="#FFFFFF">
+
+    <VerticalStackLayout Padding="24" Spacing="24" VerticalOptions="FillAndExpand" HorizontalOptions="Center">
+        
+        <!-- GIF Attaque Tonnerre avec animation réelle -->
+        <Frame Padding="16" CornerRadius="15" BackgroundColor="#F0F0F0" 
+               HasShadow="True" HorizontalOptions="Center" VerticalOptions="Center">
+            <Image x:Name="PokemonGif"
+                   Source="eclair.gif"
+                   HeightRequest="200"
+                   WidthRequest="300"
+                   Aspect="AspectFit"
+                   IsAnimationPlaying="True" />
+        </Frame>
+
+        <Label Text="Attaque Tonnerre ! ⚡"
+               FontSize="28"
+               FontAttributes="Bold"
+               TextColor="#DC143C"
+               HorizontalTextAlignment="Center"/>
+
+        <!-- Bouton retour -->
+        <Button x:Name="ReturnButton"
+                Text="Retour à l'accueil"
+                FontSize="16"
+                FontAttributes="Bold"
+                BackgroundColor="#CCCCCC"
+                TextColor="#666666"
+                CornerRadius="10"
+                Padding="16,12"
+                Clicked="OnReturnHomeClicked"
+                HorizontalOptions="Center"
+                WidthRequest="200"
+                Margin="0,16,0,0"
+                IsEnabled="False" />
+
+    </VerticalStackLayout>
+
+</ContentPage>
+
+
