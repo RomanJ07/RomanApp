@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RomanApp.HomePage"
+             Title="Accueil Pokemon">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="24" Spacing="16">
+            <Image Source="dotnet_bot.png"
+                   HeightRequest="160"
+                   Aspect="AspectFit" />
+
+            <Label Text="Bienvenue, Dresseur !"
+                   FontSize="28"
+                   FontAttributes="Bold" />
+
+            <Label Text="Explore les onglets pour voir le Pokedex, ton equipe et ton profil."
+                   FontSize="16" />
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
+
