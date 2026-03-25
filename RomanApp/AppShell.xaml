@@ -29,11 +29,11 @@
                 Route="pokedex" />
         </Tab>
 
-        <Tab Title="Equipe" Icon="pokemon_team.png">
+        <Tab Title="Capturer" Icon="pokemon_team.png">
             <ShellContent
-                Title="Mon Equipe"
-                ContentTemplate="{DataTemplate local:TeamPage}"
-                Route="team" />
+                Title="Capturer un Pokemon"
+                ContentTemplate="{DataTemplate local:AddPokemonPage}"
+                Route="addpokemon" />
         </Tab>
 
         <Tab Title="Dresseur" Icon="pokemon_trainer.svg">

@@ -1,8 +1,8 @@
-﻿using Microsoft.Extensions.Logging;
-using CommunityToolkit.Maui;
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using CommunityToolkit.Maui;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using PokeApiNet;
+using RomanApp.Converters;
 using RomanApp.Services;
 using RomanApp.ViewModels;
 
@@ -24,8 +24,10 @@ public static class MauiProgram
 
         builder.Services.AddSingleton<PokeApiClient>();
         builder.Services.AddTransient<IPokeApiService, PokeApiService>();
+        builder.Services.AddSingleton<ICapturedPokemonService, CapturedPokemonService>();
         builder.Services.AddTransient<PokedexViewModel>();
         builder.Services.AddTransient<PokedexPage>();
+        builder.Services.AddTransient<AddPokemonPage>();
         builder.Services.AddSingleton<AppShell>();
 
 #if DEBUG
