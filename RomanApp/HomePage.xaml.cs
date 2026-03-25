@@ -7,7 +7,7 @@ public partial class HomePage : ContentPage
         InitializeComponent();
     }
 
-    private async void OnSeeActionClicked(object sender, EventArgs e)
+    private async void OnSeeActionClicked(object? sender, EventArgs e)
     {
         await Navigation.PushAsync(new AnimationPage());
     }

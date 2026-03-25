@@ -1,17 +1,16 @@
 ﻿namespace RomanApp;
 
-public partial class App
+public partial class App : Application
 {
-    private readonly IServiceProvider _services;
-
-    public App(IServiceProvider services)
+    public App()
     {
         InitializeComponent();
-        _services = services;
     }
 
     protected override Window CreateWindow(IActivationState? activationState)
     {
-        return new Window(_services.GetRequiredService<AppShell>());
+        var services = IPlatformApplication.Current?.Services ?? throw new InvalidOperationException("Services not initialized");
+        var appShell = services.GetRequiredService<AppShell>();
+        return new Window(appShell);
     }
 }

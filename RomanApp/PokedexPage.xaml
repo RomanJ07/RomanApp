@@ -3,75 +3,145 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:models="clr-namespace:RomanApp.Models"
              xmlns:viewModels="clr-namespace:RomanApp.ViewModels"
+             xmlns:converters="clr-namespace:RomanApp.Converters"
              x:Class="RomanApp.PokedexPage"
              x:DataType="viewModels:PokedexViewModel"
-             Title="Pokedex">
+             Title="Pokedex"
+             BackgroundColor="#FFFFFF">
 
-    <Grid RowDefinitions="Auto,Auto,Auto,*,Auto"
-          Padding="24"
-          RowSpacing="12">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:BytesToImageSourceConverter x:Key="BytesToImageSourceConverter" />
+            <converters:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
 
-        <Image Grid.Row="0"
-               Source="pokemon_pokedex.png"
-               HeightRequest="120"
-               Aspect="AspectFit" />
+    <Grid RowDefinitions="Auto,*,Auto"
+          Padding="16"
+          RowSpacing="16"
+          BackgroundColor="#FFFFFF">
 
-        <Label Grid.Row="1"
-               Text="Pokedex"
-               FontSize="28"
-               FontAttributes="Bold" />
-
-        <ActivityIndicator Grid.Row="2"
+        <ActivityIndicator Grid.Row="0"
                            IsRunning="{Binding IsLoading}"
                            IsVisible="{Binding IsLoading}"
-                           Color="#512BD4" />
+                           Color="#DC143C" />
 
-        <CollectionView Grid.Row="3"
-                        ItemsSource="{Binding Pokemons}"
-                        SelectedItem="{Binding SelectedPokemon, Mode=TwoWay}"
-                        SelectionMode="Single">
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="models:PokemonListItem">
-                    <Grid Padding="8"
-                          ColumnDefinitions="72,*">
-                        <Image Grid.Column="0"
-                               WidthRequest="56"
-                               HeightRequest="56"
-                               Aspect="AspectFit"
-                               Source="{Binding ImageUrl}" />
-                        <Label Grid.Column="1"
-                               VerticalOptions="Center"
-                               FontSize="18"
-                               Text="{Binding DisplayName}" />
-                    </Grid>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+        <ScrollView Grid.Row="1"
+                    BackgroundColor="#FFFFFF">
+            <VerticalStackLayout Spacing="20"
+                                 Padding="8">
+                <!-- Si aucun Pokémon n'est sélectionné: afficher la liste -->
+                <VerticalStackLayout Spacing="12"
+                                     IsVisible="{Binding HasSelectedPokemon, Converter={StaticResource InvertedBoolConverter}}">
+                    <Label Text="Tous les Pokémons"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           TextColor="#DC143C" />
+                    <CollectionView x:Name="PokemonCollectionView"
+                                    ItemsSource="{Binding AllPokemons}"
+                                    SelectionMode="Single"
+                                    SelectionChanged="OnPokemonSelected">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:PokemonItem">
+                                <VerticalStackLayout Padding="12"
+                                                     Spacing="8"
+                                                     Margin="0,4">
+                                    <Border StrokeThickness="1"
+                                            Stroke="#E0E0E0"
+                                            StrokeShape="RoundRectangle 12"
+                                            BackgroundColor="#F8F8F8"
+                                            Padding="12">
+                                        <Grid ColumnDefinitions="80,*"
+                                              ColumnSpacing="12">
+                                            <!-- Image -->
+                                            <Border Grid.Column="0"
+                                                    StrokeThickness="1"
+                                                    Stroke="#E0E0E0"
+                                                    StrokeShape="RoundRectangle 8"
+                                                    BackgroundColor="#FFFFFF"
+                                                    Padding="2">
+                                                <Image WidthRequest="76"
+                                                       HeightRequest="76"
+                                                       Aspect="AspectFit"
+                                                       Source="{Binding DisplayImage}" />
+                                            </Border>
 
-        <VerticalStackLayout Grid.Row="4"
-                             Spacing="8"
-                             IsVisible="{Binding HasSelectedPokemon}">
-            <Label Text="Detail"
-                   FontSize="22"
-                   FontAttributes="Bold" />
+                                            <!-- Infos -->
+                                            <VerticalStackLayout Grid.Column="1"
+                                                                VerticalOptions="Center"
+                                                                Spacing="4">
+                                                <Label FontSize="16"
+                                                       FontAttributes="Bold"
+                                                       TextColor="#1F1F1F"
+                                                       Text="{Binding Title}" />
+                                                <Label FontSize="12"
+                                                       TextColor="#999999"
+                                                       Text="{Binding ShortDescription}"
+                                                       LineBreakMode="TailTruncation" />
+                                            </VerticalStackLayout>
+                                        </Grid>
+                                    </Border>
+                                </VerticalStackLayout>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
 
-            <Label Text="{Binding SelectedPokemonDetail.DisplayName}"
-                   FontSize="20"
-                   FontAttributes="Bold" />
+                <!-- Si un Pokémon est sélectionné: afficher la carte détail étendue -->
+                <VerticalStackLayout Spacing="16"
+                                     IsVisible="{Binding HasSelectedPokemon}"
+                                     Padding="0">
+                    <!-- Bouton Retour -->
+                    <Button Text="← Retour à la liste"
+                            FontSize="14"
+                            BackgroundColor="#DC143C"
+                            TextColor="#FFFFFF"
+                            Padding="12"
+                            Clicked="OnReturnToListClicked" />
 
-            <Image Source="{Binding SelectedPokemonDetail.ImageUrl}"
-                   HeightRequest="120"
-                   Aspect="AspectFit" />
+                    <!-- Carte détail -->
+                    <Border StrokeThickness="2"
+                            Stroke="#DC143C"
+                            StrokeShape="RoundRectangle 16"
+                            BackgroundColor="#FFF5F5"
+                            Padding="20">
+                        <VerticalStackLayout Spacing="16">
+                            <!-- Nom du Pokémon -->
+                            <Label Text="{Binding SelectedPokemonDetail.DisplayName}"
+                                   FontSize="28"
+                                   FontAttributes="Bold"
+                                   TextColor="#DC143C"
+                                   HorizontalOptions="Center" />
 
-            <Label Text="{Binding SelectedPokemonDetail.Description}"
-                   FontSize="14"
-                   LineBreakMode="WordWrap" />
-        </VerticalStackLayout>
+                            <!-- Image grande -->
+                            <Border StrokeThickness="2"
+                                    Stroke="#DC143C"
+                                    StrokeShape="RoundRectangle 12"
+                                    BackgroundColor="#FFFFFF"
+                                    Padding="12"
+                                    HorizontalOptions="Center">
+                                <Image Source="{Binding SelectedPokemonDetail.DisplayImage}"
+                                       HeightRequest="220"
+                                       WidthRequest="220"
+                                       Aspect="AspectFit" />
+                            </Border>
 
-        <Label Grid.RowSpan="5"
+                            <!-- Description -->
+                            <Label Text="{Binding SelectedPokemonDetail.Description}"
+                                   FontSize="14"
+                                   TextColor="#424242"
+                                   LineBreakMode="WordWrap"
+                                   Padding="8" />
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <Label Grid.Row="2"
                VerticalOptions="End"
                HorizontalOptions="Center"
-               TextColor="Red"
+               TextColor="#D32F2F"
                FontSize="13"
                Text="{Binding ErrorMessage}"
                IsVisible="{Binding HasError}" />
