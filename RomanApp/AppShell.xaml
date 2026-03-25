@@ -23,6 +23,7 @@
 
         <Tab Title="Pokedex" Icon="pokemon_pokedex.png">
             <ShellContent
+                x:Name="PokedexShellContent"
                 Title="Pokedex"
                 ContentTemplate="{DataTemplate local:PokedexPage}"
                 Route="pokedex" />

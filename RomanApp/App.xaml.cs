@@ -1,16 +1,17 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿namespace RomanApp;
 
-namespace RomanApp;
-
-public partial class App : Application
+public partial class App
 {
-    public App()
+    private readonly IServiceProvider _services;
+
+    public App(IServiceProvider services)
     {
         InitializeComponent();
+        _services = services;
     }
 
     protected override Window CreateWindow(IActivationState? activationState)
     {
-        return new Window(new AppShell());
+        return new Window(_services.GetRequiredService<AppShell>());
     }
 }
