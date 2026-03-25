@@ -5,8 +5,9 @@
              Title="Accueil Pokemon"
              BackgroundColor="#FFFFFF">
 
-    <ScrollView>
-        <VerticalStackLayout Padding="24" Spacing="24">
+    <Grid RowDefinitions="*,Auto">
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout Padding="24,24,24,12" Spacing="24">
             
             <!-- Titre Principal et Sous-titre -->
             <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
@@ -24,18 +25,17 @@
 
             <!-- Deux images côte à côte -->
             <HorizontalStackLayout Spacing="16" HorizontalOptions="Center">
-                <Image Source="pokemon.jpg"
+                <Image Source="pokemon.png"
                        WidthRequest="120"
                        HeightRequest="120"
                        Aspect="AspectFit" />
                 
-                <Image Source="pikachu.jpg"
+                <Image Source="pikachu.png"
                        WidthRequest="120"
                        HeightRequest="120"
                        Aspect="AspectFit" />
             </HorizontalStackLayout>
 
-            <!-- Bouton pour voir l'action (GIF) -->
             <Button Text="Voir l'action ⚡"
                     FontSize="18"
                     FontAttributes="Bold"
@@ -47,10 +47,20 @@
                     HorizontalOptions="Center"
                     WidthRequest="280"/>
 
+            </VerticalStackLayout>
+        </ScrollView>
 
+        <VerticalStackLayout Grid.Row="1" Spacing="0" Padding="0" VerticalOptions="End">
 
+            <WebView
+                x:Name="PokeBallWebView"
+                HeightRequest="320"
+                WidthRequest="320"
+                HorizontalOptions="Center"
+                VerticalOptions="End"
+                Margin="0,0,0,-8" />
         </VerticalStackLayout>
-    </ScrollView>
+    </Grid>
 
 </ContentPage>
 
