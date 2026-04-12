@@ -38,6 +38,7 @@
 
         <Tab Title="Dresseur" Icon="pokemon_trainer.svg">
             <ShellContent
+                x:Name="TrainerShellContent"
                 Title="Profil Dresseur"
                 ContentTemplate="{DataTemplate local:TrainerPage}"
                 Route="trainer" />

@@ -11,6 +11,10 @@ public partial class PokedexViewModel : ObservableObject
     private readonly IPokeApiService _pokeApiService;
     private CancellationTokenSource? _detailCts;
     private bool _hasLoaded;
+    private PokemonListItem? _selectedPokemon;
+    private PokemonDetail? _selectedPokemonDetail;
+    private bool _isLoading;
+    private string _errorMessage = string.Empty;
 
     public PokedexViewModel(IPokeApiService pokeApiService)
     {
@@ -19,42 +23,59 @@ public partial class PokedexViewModel : ObservableObject
 
     public ObservableCollection<PokemonListItem> Pokemons { get; } = new();
 
-    [ObservableProperty]
-    private PokemonListItem? selectedPokemon;
+    public PokemonListItem? SelectedPokemon
+    {
+        get => _selectedPokemon;
+        set
+        {
+            if (!SetProperty(ref _selectedPokemon, value))
+            {
+                return;
+            }
 
-    [ObservableProperty]
-    private PokemonDetail? selectedPokemonDetail;
+            if (value is null)
+            {
+                SelectedPokemonDetail = null;
+                return;
+            }
 
-    [ObservableProperty]
-    private bool isLoading;
+            _ = LoadPokemonDetailSafeAsync(value.Name);
+        }
+    }
 
-    [ObservableProperty]
-    private string errorMessage = string.Empty;
+    public PokemonDetail? SelectedPokemonDetail
+    {
+        get => _selectedPokemonDetail;
+        set
+        {
+            if (SetProperty(ref _selectedPokemonDetail, value))
+            {
+                OnPropertyChanged(nameof(HasSelectedPokemon));
+            }
+        }
+    }
+
+    public bool IsLoading
+    {
+        get => _isLoading;
+        set => SetProperty(ref _isLoading, value);
+    }
+
+    public string ErrorMessage
+    {
+        get => _errorMessage;
+        set
+        {
+            if (SetProperty(ref _errorMessage, value))
+            {
+                OnPropertyChanged(nameof(HasError));
+            }
+        }
+    }
 
     public bool HasSelectedPokemon => SelectedPokemonDetail is not null;
 
     public bool HasError => !string.IsNullOrWhiteSpace(ErrorMessage);
-
-    partial void OnSelectedPokemonChanged(PokemonListItem? value)
-    {
-        if (value is null)
-        {
-            SelectedPokemonDetail = null;
-            return;
-        }
-
-        _ = LoadPokemonDetailSafeAsync(value.Name);
-    }
-
-    partial void OnSelectedPokemonDetailChanged(PokemonDetail? value)
-    {
-        OnPropertyChanged(nameof(HasSelectedPokemon));
-    }
-
-    partial void OnErrorMessageChanged(string value)
-    {
-        OnPropertyChanged(nameof(HasError));
-    }
 
     [RelayCommand]
     public async Task LoadPokemonsAsync()
