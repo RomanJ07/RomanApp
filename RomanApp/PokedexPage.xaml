@@ -38,11 +38,11 @@
                            FontAttributes="Bold"
                            TextColor="#DC143C" />
                     <CollectionView x:Name="PokemonCollectionView"
-                                    ItemsSource="{Binding AllPokemons}"
+                                    ItemsSource="{Binding Pokemons}"
                                     SelectionMode="Single"
                                     SelectionChanged="OnPokemonSelected">
                         <CollectionView.ItemTemplate>
-                            <DataTemplate x:DataType="models:PokemonItem">
+                            <DataTemplate x:DataType="models:PokemonListItem">
                                 <VerticalStackLayout Padding="12"
                                                      Spacing="8"
                                                      Margin="0,4">
@@ -63,7 +63,7 @@
                                                 <Image WidthRequest="76"
                                                        HeightRequest="76"
                                                        Aspect="AspectFit"
-                                                       Source="{Binding DisplayImage}" />
+                                                       Source="{Binding ImageUrl}" />
                                             </Border>
 
                                             <!-- Infos -->
@@ -73,10 +73,10 @@
                                                 <Label FontSize="16"
                                                        FontAttributes="Bold"
                                                        TextColor="#1F1F1F"
-                                                       Text="{Binding Title}" />
+                                                       Text="{Binding DisplayName}" />
                                                 <Label FontSize="12"
                                                        TextColor="#999999"
-                                                       Text="{Binding ShortDescription}"
+                                                       Text="{Binding Id, StringFormat='Pokemon #{0}'}"
                                                        LineBreakMode="TailTruncation" />
                                             </VerticalStackLayout>
                                         </Grid>

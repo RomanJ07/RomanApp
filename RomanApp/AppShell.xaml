@@ -36,10 +36,10 @@
                 Route="addpokemon" />
         </Tab>
 
-        <Tab Title="Dresseur" Icon="pokemon_trainer.svg">
+        <Tab Title="Trainer" Icon="pokemon_trainer.svg">
             <ShellContent
                 x:Name="TrainerShellContent"
-                Title="Profil Dresseur"
+                Title="Trainer Profile"
                 ContentTemplate="{DataTemplate local:TrainerPage}"
                 Route="trainer" />
         </Tab>

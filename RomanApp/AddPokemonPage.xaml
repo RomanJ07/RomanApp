@@ -26,7 +26,10 @@
                    HorizontalTextAlignment="Center"/>
 
             <!-- Section Photo -->
-            <Frame Padding="16" CornerRadius="15" BackgroundColor="#1a1a1a" HasShadow="True">
+            <Border Padding="16"
+                    StrokeShape="RoundRectangle 15"
+                    BackgroundColor="#1a1a1a"
+                    StrokeThickness="0">
                 <VerticalStackLayout Spacing="12" HorizontalOptions="Center">
                     <!-- Affichage de la photo prise -->
                     <Image x:Name="PhotoImage"
@@ -55,7 +58,7 @@
                             HorizontalOptions="Center"
                             WidthRequest="220"/>
                 </VerticalStackLayout>
-            </Frame>
+            </Border>
 
             <!-- Section Titre -->
             <VerticalStackLayout Spacing="8">
@@ -63,7 +66,11 @@
                        FontSize="14"
                        FontAttributes="Bold"
                        TextColor="#000000"/>
-                <Frame Padding="0" BorderColor="#333333" CornerRadius="8" HasShadow="False" BackgroundColor="#1a1a1a">
+                <Border Padding="0"
+                        Stroke="#333333"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 8"
+                        BackgroundColor="#1a1a1a">
                     <Entry x:Name="TitleEntry"
                            Placeholder="Ex: Mon Pikachu préféré"
                            FontSize="14"
@@ -72,7 +79,7 @@
                            TextColor="#FFFFFF"
                            PlaceholderColor="#999999"
                            Margin="12"/>
-                </Frame>
+                </Border>
             </VerticalStackLayout>
 
             <!-- Section Description -->
@@ -81,7 +88,11 @@
                        FontSize="14"
                        FontAttributes="Bold"
                        TextColor="#000000"/>
-                <Frame Padding="0" BorderColor="#333333" CornerRadius="8" HasShadow="False" BackgroundColor="#1a1a1a">
+                <Border Padding="0"
+                        Stroke="#333333"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 8"
+                        BackgroundColor="#1a1a1a">
                     <Editor x:Name="DescriptionEditor"
                             Placeholder="Décrivez le Pokémon capturé..."
                             FontSize="14"
@@ -91,7 +102,7 @@
                             PlaceholderColor="#999999"
                             HeightRequest="120"
                             Margin="12"/>
-                </Frame>
+                </Border>
             </VerticalStackLayout>
 
             <!-- Boutons d'action -->
@@ -105,7 +116,7 @@
                         CornerRadius="10"
                         Padding="16,12"
                         Command="{Binding AddPokemonCommand}"
-                        HorizontalOptions="FillAndExpand"/>
+                        HorizontalOptions="Fill"/>
 
                 <!-- Bouton Réinitialiser -->
                 <Button Text="Réinitialiser"
@@ -115,7 +126,7 @@
                         CornerRadius="10"
                         Padding="16,12"
                         Command="{Binding ResetFormCommand}"
-                        HorizontalOptions="FillAndExpand"/>
+                        HorizontalOptions="Fill"/>
             </VerticalStackLayout>
 
         </VerticalStackLayout>

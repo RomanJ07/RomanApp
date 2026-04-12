@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Maui.ApplicationModel;
 using RomanApp.Models;
 using RomanApp.Services;
 
@@ -9,6 +10,11 @@ namespace RomanApp.ViewModels;
 public partial class AddPokemonViewModel : ObservableObject
 {
     private readonly ICapturedPokemonService _capturedPokemonService;
+    private string _title = string.Empty;
+    private string _description = string.Empty;
+    private string _photoPath = string.Empty;
+    private byte[]? _photoData;
+    private bool _isPhotoTaken;
 
     public AddPokemonViewModel(ICapturedPokemonService capturedPokemonService)
     {
@@ -18,20 +24,35 @@ public partial class AddPokemonViewModel : ObservableObject
 
     public ObservableCollection<CapturedPokemon> CapturedPokemons { get; }
 
-    [ObservableProperty]
-    private string title = string.Empty;
+    public string Title
+    {
+        get => _title;
+        set => SetProperty(ref _title, value);
+    }
 
-    [ObservableProperty]
-    private string description = string.Empty;
+    public string Description
+    {
+        get => _description;
+        set => SetProperty(ref _description, value);
+    }
 
-    [ObservableProperty]
-    private string photoPath = string.Empty;
+    public string PhotoPath
+    {
+        get => _photoPath;
+        set => SetProperty(ref _photoPath, value);
+    }
 
-    [ObservableProperty]
-    private byte[]? photoData;
+    public byte[]? PhotoData
+    {
+        get => _photoData;
+        set => SetProperty(ref _photoData, value);
+    }
 
-    [ObservableProperty]
-    private bool isPhotoTaken;
+    public bool IsPhotoTaken
+    {
+        get => _isPhotoTaken;
+        set => SetProperty(ref _isPhotoTaken, value);
+    }
 
     [RelayCommand]
     public async Task TakePhoto()
@@ -47,7 +68,7 @@ public partial class AddPokemonViewModel : ObservableObject
 
             if (cameraStatus != PermissionStatus.Granted)
             {
-                await Application.Current!.MainPage!.DisplayAlertAsync("Erreur", "Permission d'accès à la caméra refusée", "OK");
+                await ShowAlertAsync("Erreur", "Permission d'acces a la camera refusee", "OK");
                 return;
             }
 
@@ -67,7 +88,7 @@ public partial class AddPokemonViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            await Application.Current!.MainPage!.DisplayAlertAsync("Erreur", $"Impossible de prendre une photo: {ex.Message}", "OK");
+            await ShowAlertAsync("Erreur", $"Impossible de prendre une photo: {ex.Message}", "OK");
         }
     }
 
@@ -76,13 +97,13 @@ public partial class AddPokemonViewModel : ObservableObject
     {
         if (string.IsNullOrWhiteSpace(Title) || string.IsNullOrWhiteSpace(Description))
         {
-            await Application.Current!.MainPage!.DisplayAlertAsync("Erreur", "Veuillez remplir le titre et la description", "OK");
+            await ShowAlertAsync("Erreur", "Veuillez remplir le titre et la description", "OK");
             return;
         }
 
         if (!IsPhotoTaken || PhotoData == null)
         {
-            await Application.Current!.MainPage!.DisplayAlertAsync("Erreur", "Veuillez prendre une photo", "OK");
+            await ShowAlertAsync("Erreur", "Veuillez prendre une photo", "OK");
             return;
         }
 
@@ -107,7 +128,7 @@ public partial class AddPokemonViewModel : ObservableObject
         PhotoData = null;
         IsPhotoTaken = false;
 
-        await Application.Current!.MainPage!.DisplayAlertAsync("Succès", "Pokémon ajouté au Pokédex!", "OK");
+        await ShowAlertAsync("Succes", "Pokemon ajoute au Pokedex!", "OK");
     }
 
     [RelayCommand]
@@ -118,6 +139,17 @@ public partial class AddPokemonViewModel : ObservableObject
         PhotoPath = string.Empty;
         PhotoData = null;
         IsPhotoTaken = false;
+    }
+
+    private static Task ShowAlertAsync(string title, string message, string cancel)
+    {
+        var page = Application.Current?.Windows.FirstOrDefault()?.Page;
+        if (page is null)
+        {
+            return Task.CompletedTask;
+        }
+
+        return MainThread.InvokeOnMainThreadAsync(() => page.DisplayAlertAsync(title, message, cancel));
     }
 }
 

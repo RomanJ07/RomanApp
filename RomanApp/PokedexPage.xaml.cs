@@ -28,11 +28,11 @@ public partial class PokedexPage
         await _viewModel.LoadPokemonsCommand.ExecuteAsync(null);
     }
 
-    private async void OnPokemonSelected(object? sender, SelectionChangedEventArgs e)
+    private void OnPokemonSelected(object? sender, SelectionChangedEventArgs e)
     {
-        if (e.CurrentSelection.FirstOrDefault() is PokemonItem selectedPokemon)
+        if (e.CurrentSelection.FirstOrDefault() is PokemonListItem selectedPokemon)
         {
-            await _viewModel.SelectPokemonCommand.ExecuteAsync(selectedPokemon);
+            _viewModel.SelectedPokemon = selectedPokemon;
         }
     }
 
