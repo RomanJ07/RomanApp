@@ -59,6 +59,7 @@ public partial class HomePage
             width: 100%;
             height: 100%;
             --poster-color: transparent;
+            pointer-events: none;
         }
     </style>
 </head>
@@ -67,10 +68,9 @@ public partial class HomePage
         src="data:model/gltf-binary;base64,{{modelBase64}}"
         alt="Pokeball 3D"
         auto-rotate
-        camera-controls
         disable-pan
         disable-zoom
-        interaction-prompt="auto"
+        interaction-prompt="none"
         shadow-intensity="1"
         touch-action="none">
     </model-viewer>

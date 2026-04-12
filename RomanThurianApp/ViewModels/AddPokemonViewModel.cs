@@ -15,6 +15,8 @@ public partial class AddPokemonViewModel : ObservableObject
     private string _photoPath = string.Empty;
     private byte[]? _photoData;
     private bool _isPhotoTaken;
+    private bool _isTakingPhoto;
+    private string _photoStatusMessage = "Aucune photo prise";
 
     public AddPokemonViewModel(ICapturedPokemonService capturedPokemonService)
     {
@@ -54,21 +56,42 @@ public partial class AddPokemonViewModel : ObservableObject
         set => SetProperty(ref _isPhotoTaken, value);
     }
 
+    public bool IsTakingPhoto
+    {
+        get => _isTakingPhoto;
+        set => SetProperty(ref _isTakingPhoto, value);
+    }
+
+    public string PhotoStatusMessage
+    {
+        get => _photoStatusMessage;
+        set => SetProperty(ref _photoStatusMessage, value);
+    }
+
     [RelayCommand]
     public async Task TakePhoto()
     {
+        if (IsTakingPhoto)
+        {
+            return;
+        }
+
         try
         {
-            // Demander les permissions de caméra
-            var cameraStatus = await Permissions.CheckStatusAsync<Permissions.Camera>();
-            if (cameraStatus != PermissionStatus.Granted)
+            IsTakingPhoto = true;
+
+            if (!MediaPicker.Default.IsCaptureSupported)
             {
-                cameraStatus = await Permissions.RequestAsync<Permissions.Camera>();
+                PhotoStatusMessage = "La camera n'est pas disponible sur cet appareil.";
+                await ShowAlertAsync("Camera indisponible", PhotoStatusMessage, "OK");
+                return;
             }
 
+            var cameraStatus = await EnsureCameraPermissionAsync();
             if (cameraStatus != PermissionStatus.Granted)
             {
-                await ShowAlertAsync("Erreur", "Permission d'acces a la camera refusee", "OK");
+                PhotoStatusMessage = "Autorisation camera refusee. Active-la dans les reglages.";
+                await ShowAlertAsync("Autorisation requise", PhotoStatusMessage, "OK");
                 return;
             }
 
@@ -84,11 +107,35 @@ public partial class AddPokemonViewModel : ObservableObject
                 using var memoryStream = new MemoryStream();
                 await stream.CopyToAsync(memoryStream);
                 PhotoData = memoryStream.ToArray();
+                PhotoStatusMessage = "Photo capturee avec succes.";
             }
+            else
+            {
+                PhotoStatusMessage = "Capture annulee.";
+            }
+        }
+        catch (FeatureNotSupportedException)
+        {
+            PhotoStatusMessage = "La capture photo n'est pas supportee sur cet appareil.";
+            await ShowAlertAsync("Fonction non supportee", PhotoStatusMessage, "OK");
+        }
+        catch (PermissionException)
+        {
+            PhotoStatusMessage = "Permission camera manquante.";
+            await ShowAlertAsync("Autorisation requise", PhotoStatusMessage, "OK");
+        }
+        catch (OperationCanceledException)
+        {
+            PhotoStatusMessage = "Capture annulee.";
         }
         catch (Exception ex)
         {
+            PhotoStatusMessage = "Erreur pendant la prise de photo.";
             await ShowAlertAsync("Erreur", $"Impossible de prendre une photo: {ex.Message}", "OK");
+        }
+        finally
+        {
+            IsTakingPhoto = false;
         }
     }
 
@@ -127,6 +174,7 @@ public partial class AddPokemonViewModel : ObservableObject
         PhotoPath = string.Empty;
         PhotoData = null;
         IsPhotoTaken = false;
+        PhotoStatusMessage = "Aucune photo prise";
 
         await ShowAlertAsync("Succes", "Pokemon ajoute au Pokedex!", "OK");
     }
@@ -139,6 +187,19 @@ public partial class AddPokemonViewModel : ObservableObject
         PhotoPath = string.Empty;
         PhotoData = null;
         IsPhotoTaken = false;
+        IsTakingPhoto = false;
+        PhotoStatusMessage = "Aucune photo prise";
+    }
+
+    private static async Task<PermissionStatus> EnsureCameraPermissionAsync()
+    {
+        var status = await Permissions.CheckStatusAsync<Permissions.Camera>();
+        if (status == PermissionStatus.Granted)
+        {
+            return status;
+        }
+
+        return await Permissions.RequestAsync<Permissions.Camera>();
     }
 
     private static Task ShowAlertAsync(string title, string message, string cancel)

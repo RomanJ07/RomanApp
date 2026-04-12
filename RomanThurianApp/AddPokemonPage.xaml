@@ -40,11 +40,15 @@
                            IsVisible="{Binding IsPhotoTaken}"/>
 
                     <!-- Message si pas de photo -->
-                    <Label Text="Aucune photo prise"
+                    <Label Text="{Binding PhotoStatusMessage}"
                            FontSize="16"
                            TextColor="#CCCCCC"
                            HorizontalTextAlignment="Center"
                            IsVisible="{Binding IsPhotoTaken, Converter={StaticResource InvertedBoolConverter}}"/>
+
+                    <ActivityIndicator IsRunning="{Binding IsTakingPhoto}"
+                                       IsVisible="{Binding IsTakingPhoto}"
+                                       Color="#FFD700"/>
 
                     <!-- Bouton pour prendre une photo -->
                     <Button Text="Prendre une photo"
@@ -55,6 +59,7 @@
                             CornerRadius="10"
                             Padding="16,12"
                             Command="{Binding TakePhotoCommand}"
+                            IsEnabled="{Binding IsTakingPhoto, Converter={StaticResource InvertedBoolConverter}}"
                             HorizontalOptions="Center"
                             WidthRequest="220"/>
                 </VerticalStackLayout>
