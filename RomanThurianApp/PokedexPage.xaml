@@ -11,7 +11,6 @@
 
     <ContentPage.Resources>
         <ResourceDictionary>
-            <converters:BytesToImageSourceConverter x:Key="BytesToImageSourceConverter" />
             <converters:InvertedBoolConverter x:Key="InvertedBoolConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
@@ -63,7 +62,7 @@
                                                 <Image WidthRequest="76"
                                                        HeightRequest="76"
                                                        Aspect="AspectFit"
-                                                       Source="{Binding ImageUrl}" />
+                                                       Source="{Binding DisplayImage}" />
                                             </Border>
 
                                             <!-- Infos -->
@@ -76,7 +75,7 @@
                                                        Text="{Binding DisplayName}" />
                                                 <Label FontSize="12"
                                                        TextColor="#999999"
-                                                       Text="{Binding Id, StringFormat='Pokemon #{0}'}"
+                                                       Text="{Binding Subtitle}"
                                                        LineBreakMode="TailTruncation" />
                                             </VerticalStackLayout>
                                         </Grid>

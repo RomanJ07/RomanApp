@@ -6,8 +6,8 @@ namespace RomanThurianApp;
 public partial class PokedexPage
 {
     private readonly PokedexViewModel _viewModel;
-    private bool _hasLoaded;
-
+     
+    
     public PokedexPage(PokedexViewModel viewModel)
     {
         InitializeComponent();
@@ -18,13 +18,6 @@ public partial class PokedexPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-
-        if (_hasLoaded)
-        {
-            return;
-        }
-
-        _hasLoaded = true;
         await _viewModel.LoadPokemonsCommand.ExecuteAsync(null);
     }
 
