@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="RomanThurianApp.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:RomanThurianApp"
+    Title="Pokemon App">
+
+    <Shell.Resources>
+        <ResourceDictionary>
+            <Color x:Key="Primary">#512BD4</Color>
+            <Color x:Key="Secondary">#A0A0A0</Color>
+        </ResourceDictionary>
+    </Shell.Resources>
+
+    <TabBar>
+        <Tab Title="Accueil" Icon="pokemon_home.svg">
+            <ShellContent
+                Title="Accueil Pokemon"
+                ContentTemplate="{DataTemplate local:HomePage}"
+                Route="home" />
+        </Tab>
+
+        <Tab Title="Pokedex" Icon="pokemon_pokedex.png">
+            <ShellContent
+                x:Name="PokedexShellContent"
+                Title="Pokedex"
+                ContentTemplate="{DataTemplate local:PokedexPage}"
+                Route="pokedex" />
+        </Tab>
+
+        <Tab Title="Capturer" Icon="pokemon_team.png">
+            <ShellContent
+                Title="Capturer un Pokemon"
+                ContentTemplate="{DataTemplate local:AddPokemonPage}"
+                Route="addpokemon" />
+        </Tab>
+
+        <Tab Title="Trainer" Icon="pokemon_trainer.svg">
+            <ShellContent
+                x:Name="TrainerShellContent"
+                Title="Trainer Profile"
+                ContentTemplate="{DataTemplate local:TrainerPage}"
+                Route="trainer" />
+        </Tab>
+    </TabBar>
+
+</Shell>
