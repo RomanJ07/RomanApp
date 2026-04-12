@@ -21,7 +21,7 @@ public partial class HomePage
         await LoadPokeBall3DAsync();
     }
 
-    private async void OnSeeActionClicked(object sender, EventArgs e)
+    private async void OnSeeActionClicked(object? sender, EventArgs e)
     {
         await Navigation.PushAsync(new AnimationPage());
     }

@@ -42,11 +42,24 @@ public class PokeApiService : IPokeApiService
                 .FirstOrDefault(x => string.Equals(x.Language.Name, "en", StringComparison.OrdinalIgnoreCase))?.FlavorText
             ?? "Description non disponible.";
 
+        var hp = pokemon.Stats?.FirstOrDefault(s => string.Equals(s.Stat.Name, "hp", StringComparison.OrdinalIgnoreCase))?.BaseStat ?? 0;
+        var attack = pokemon.Stats?.FirstOrDefault(s => string.Equals(s.Stat.Name, "attack", StringComparison.OrdinalIgnoreCase))?.BaseStat ?? 0;
+        var types = pokemon.Types?
+            .OrderBy(t => t.Slot)
+            .Select(t => t.Type.Name)
+            .Where(typeName => !string.IsNullOrWhiteSpace(typeName))
+            .Select(typeName => typeName.Trim())
+            .ToList()
+            ?? new List<string>();
+
         return new PokemonDetail
         {
             Name = pokemon.Name,
             ImageUrl = $"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/{pokemon.Id}.png",
-            Description = CleanFlavorText(description)
+            Description = CleanFlavorText(description),
+            Hp = hp,
+            Attack = attack,
+            Types = types
         };
     }
 

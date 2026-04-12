@@ -10,7 +10,7 @@ namespace RomanApp;
                            ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize | ConfigChanges.Density)]
 public class MainActivity : MauiAppCompatActivity
 {
-    protected override void OnCreate(Android.OS.Bundle savedInstanceState)
+    protected override void OnCreate(Android.OS.Bundle? savedInstanceState)
     {
         base.OnCreate(savedInstanceState);
 

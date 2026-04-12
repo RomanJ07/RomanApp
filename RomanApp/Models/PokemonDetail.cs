@@ -26,6 +26,12 @@
 
         public string ImageUrl { get; set; } = string.Empty;
 
+        public int Hp { get; set; }
+
+        public int Attack { get; set; }
+
+        public List<string> Types { get; set; } = new();
+
         // Pour les images capturées (données binaires)
         public ImageSource? CapturedImage { get; set; }
 
