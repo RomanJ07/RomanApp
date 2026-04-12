@@ -8,8 +8,7 @@ public partial class HomePage
     {
         InitializeComponent();
     }
-
-    private async void OnSeeActionClicked(object? sender, EventArgs e)
+    
     protected override async void OnAppearing()
     {
         base.OnAppearing();
